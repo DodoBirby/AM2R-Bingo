@@ -1,0 +1,1 @@
+Repo for all things related to AM2R Bingo races.
