@@ -2,11 +2,13 @@
 
 public class AM2RDataJSON
 {
-	public required Dictionary<string, int> Metroids { get; set; }
+	public bool InGame { get; set; }
 
-	public required Dictionary<string, int> Items { get; set; }
+	public required Dictionary<string, double> Metroids { get; set; }
 
-	public required Dictionary<string, int> Events { get; set; }
+	public required Dictionary<string, double> Items { get; set; }
 
-	public required Dictionary<string, int> MapTiles { get; set; }
+	public required Dictionary<string, double> Events { get; set; }
+
+	public required Dictionary<string, double> MapTiles { get; set; }
 }

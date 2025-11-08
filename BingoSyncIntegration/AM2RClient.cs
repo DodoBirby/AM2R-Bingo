@@ -28,12 +28,12 @@ public class AM2RClient : IDisposable
 	public async Task<AM2RDataJSON?> GetDataAsync()
 	{
 		var stream = tcpClient.GetStream();
-		using (var writer = new StreamWriter(stream))
+		using (var writer = new StreamWriter(stream, leaveOpen: true))
 		{
 			await writer.WriteLineAsync();
 		}
 
-		using var reader = new StreamReader(stream);
+		using var reader = new StreamReader(stream, leaveOpen: true);
 		var dataJson = await reader.ReadLineAsync();
 
 		if (dataJson is null)
