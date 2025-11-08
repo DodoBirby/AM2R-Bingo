@@ -1,13 +1,15 @@
+// For each objective list out the name, and any items/metroids/map tiles/events/trooper logs/logs you need to collect to complete the objective
+// You can also specify a count which means you are only required to obtain that many of that category to complete the objective.
+// i.e metroidCount: 2 means you only need to kill 2 of the specified metroids
+// If count is omitted then it is assumed you have to get everything
 [
     {
         "name": "Collect Bombs",
-        "itemIds": [0],
-        "itemCount": -1
+        "itemIds": [0]
     },
     {
         "name": "Explore some tiles",
-        "mapTileCoords": [[0, 0], [1, 2]],
-        "mapTileCount": -1
+        "mapTileCoords": [[0, 0], [1, 2]]
     },
     {
         "name": "Kill Metroids",
@@ -18,5 +20,13 @@
         "name": "Trigger an event",
         "eventIds": [1, 2, 3, 4],
         "eventCount": 1
+    },
+    {
+        "name": "Collect trooper log",
+        "trooperLogIds": [2]
+    },
+    {
+        "name": "Collect normal log",
+        "logIds": [3]
     }
 ]
