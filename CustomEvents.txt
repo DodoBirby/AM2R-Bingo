@@ -1,0 +1,8 @@
+Some events that have been modded into the game to make them trackable via bingo
+310 = Ride a water jet machine
+311 = Touch the broken pipe
+312 = kill the hornoad in area 8
+313 = kill the a5 robo-minefield without exploding them
+314 = Visit thoth arcade machine
+316 = Defeat Torizo
+317 = Defeat Tester
