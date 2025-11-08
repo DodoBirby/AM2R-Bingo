@@ -76,7 +76,7 @@ public partial class BingoSyncClient : IDisposable
 		await client.PutAsJsonAsync($"{BingoSyncUrl}/api/select", selectBody, options);
 	}
 
-	public async Task<Dictionary<string, int>> GetBingoSyncObjectivesAsync()
+	public async Task<List<BingoSyncBoardJSON>> GetBoardDataAsync()
 	{
 		var boardResponse = await client.GetAsync($"{BingoSyncUrl}/room/{ConnectedRoom}/board");
 		boardResponse.EnsureSuccessStatusCode();
@@ -84,8 +84,7 @@ public partial class BingoSyncClient : IDisposable
 		var boardJson = await boardResponse.Content.ReadAsStringAsync();
 
 		var board = JsonSerializer.Deserialize<List<BingoSyncBoardJSON>>(boardJson, options)!;
-
-		return board.Select((x, i) => (x.Name, i)).ToDictionary();
+		return board;
 	}
 
 	public async Task SendObjectivesAsync(List<string> objectivesToSend, Dictionary<string, int> nameToSlotMapping)
@@ -96,16 +95,12 @@ public partial class BingoSyncClient : IDisposable
 		}
 	}
 
-	public async Task<List<string>> GetUnmarkedObjectiveNamesAsync()
+	public async Task UnsendObjectivesAsync(List<string> objectivesToRemove, Dictionary<string, int> nameToSlotMapping)
 	{
-		var boardResponse = await client.GetAsync($"{BingoSyncUrl}/room/{ConnectedRoom}/board");
-		boardResponse.EnsureSuccessStatusCode();
-
-		var boardJson = await boardResponse.Content.ReadAsStringAsync();
-
-		var board = JsonSerializer.Deserialize<List<BingoSyncBoardJSON>>(boardJson, options)!;
-
-		return board.Where(x => x.Colors == "blank").Select(x => x.Name).ToList();
+		foreach (var objective in objectivesToRemove)
+		{
+			await SetColorAsync(nameToSlotMapping[objective], Color, true);
+		}
 	}
 
 	public void Dispose()
