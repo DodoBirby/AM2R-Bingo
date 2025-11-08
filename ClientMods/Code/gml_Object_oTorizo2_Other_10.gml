@@ -9,6 +9,7 @@ if (myhealth <= 0)
     statetime = 0;
     alarm[10] = 1;
     alarm[11] = 300;
+    global.event[316] = 1
     
     with (oTorizoEgg)
         event_user(1);
