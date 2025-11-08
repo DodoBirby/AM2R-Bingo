@@ -1,4 +1,6 @@
-﻿namespace BingoSyncIntegration;
+﻿using System.Text.Json;
+
+namespace BingoSyncIntegration;
 
 class Program
 {
@@ -43,6 +45,7 @@ class Program
 				var newlyCompletedObjectives = currentlyCompletedObjectives.Where(x => !previouslyCompletedObjectiveNames.Contains(x.Name)).Select(x => x.Name).ToList();
 				previouslyCompletedObjectiveNames = currentlyCompletedObjectives.Select(x => x.Name).ToHashSet();
 
+				// TODO: Unmark objectives if they haven't been collected (i.e reloading a save)
 				await bingoSyncClient.SendObjectivesAsync(newlyCompletedObjectives, bingoSyncObjectives);
 				await Task.Delay(MillisecondsBetweenAM2RFetches);
 			}
@@ -87,14 +90,13 @@ class Program
 			&& completedMapTiles >= objective.MapTileCount;
 	}
 
-	// TODO: Replace this with JSON file reading when that is implemented
 	static List<ObjectiveJSON> GetAllObjectives()
 	{
-		List<ObjectiveJSON> objectives = [
-			new ObjectiveJSON() { Name = "Spider Ball", ItemIds = [2] }
-			];
+		var objectivesJson = File.ReadAllText("objectives.json");
 
-		foreach (var objective in objectives)
+		var objectivesList = JsonSerializer.Deserialize<List<ObjectiveJSON>>(objectivesJson, new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase })!;
+
+		foreach (var objective in objectivesList)
 		{
 			if (objective.ItemCount == 0)
 			{
@@ -113,6 +115,6 @@ class Program
 				objective.MapTileCount = objective.MapTileCoords.Count;
 			}
 		}
-		return objectives;
+		return objectivesList;
 	}
 }

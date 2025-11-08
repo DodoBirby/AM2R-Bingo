@@ -19,4 +19,8 @@ public class ObjectiveJSON
 	public List<int> EventIds { get; set; } = [];
 
 	public int EventCount { get; set; }
+
+	public List<int> LogIds { get; set; } = [];
+
+	public int LogCount { get; set; }
 }
