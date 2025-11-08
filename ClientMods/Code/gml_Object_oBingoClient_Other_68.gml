@@ -34,10 +34,19 @@ if (global.playingGame) {
 
     var eventMap = ds_map_create()
     for (var i = 0; i < array_length_1d(global.event); i++) {
+        if (i == 101) {
+            continue
+        }
         if (global.event[i] != 0) {
             ds_map_add(eventMap, string(i), true)
         }
     }
+
+    // This is the turbine event, it is 4 when all turbines are destroyed
+    if (global.event[101] == 4) {
+        ds_map_add(eventMap, "101", true)
+    }
+
     ds_map_add_map(sendMap, "events", eventMap)
 
     var dMapMap = ds_map_create()
