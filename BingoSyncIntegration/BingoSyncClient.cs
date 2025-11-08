@@ -1,5 +1,6 @@
 ﻿using System.Net;
 using System.Net.Http.Json;
+using System.Reflection.Metadata.Ecma335;
 using System.Text.Json;
 using System.Text.RegularExpressions;
 
@@ -21,6 +22,7 @@ public partial class BingoSyncClient : IDisposable
 	};
 
 	public string ConnectedRoom { get; private set; } = string.Empty;
+	public string Color { get; set; } = "red";
 
 	public BingoSyncClient()
 	{
@@ -71,8 +73,39 @@ public partial class BingoSyncClient : IDisposable
 			Room = ConnectedRoom
 		};
 
-		var putResponse = await client.PutAsJsonAsync($"{BingoSyncUrl}/api/select", selectBody, options);
-		putResponse.EnsureSuccessStatusCode();
+		await client.PutAsJsonAsync($"{BingoSyncUrl}/api/select", selectBody, options);
+	}
+
+	public async Task<Dictionary<string, int>> GetBingoSyncObjectivesAsync()
+	{
+		var boardResponse = await client.GetAsync($"{BingoSyncUrl}/room/{ConnectedRoom}/board");
+		boardResponse.EnsureSuccessStatusCode();
+
+		var boardJson = await boardResponse.Content.ReadAsStringAsync();
+
+		var board = JsonSerializer.Deserialize<List<BingoSyncBoardJSON>>(boardJson, options)!;
+
+		return board.Select((x, i) => (x.Name, i)).ToDictionary();
+	}
+
+	public async Task SendObjectivesAsync(List<string> objectivesToSend, Dictionary<string, int> nameToSlotMapping)
+	{
+		foreach (var objective in objectivesToSend)
+		{
+			await SetColorAsync(nameToSlotMapping[objective], Color, false);
+		}
+	}
+
+	public async Task<List<string>> GetUnmarkedObjectiveNamesAsync()
+	{
+		var boardResponse = await client.GetAsync($"{BingoSyncUrl}/room/{ConnectedRoom}/board");
+		boardResponse.EnsureSuccessStatusCode();
+
+		var boardJson = await boardResponse.Content.ReadAsStringAsync();
+
+		var board = JsonSerializer.Deserialize<List<BingoSyncBoardJSON>>(boardJson, options)!;
+
+		return board.Where(x => x.Colors == "blank").Select(x => x.Name).ToList();
 	}
 
 	public void Dispose()

@@ -19,30 +19,45 @@ public class AM2RClient : IDisposable
 		tcpClient.NoDelay = true;
 	}
 
-	public async Task ConnectAsync()
+	public async Task<bool> ConnectAsync()
 	{
-		var endpoint = new IPEndPoint(IPAddress.Loopback, Port);
-		await tcpClient.ConnectAsync(endpoint);
+		try
+		{
+			var endpoint = new IPEndPoint(IPAddress.Loopback, Port);
+			await tcpClient.ConnectAsync(endpoint);
+			return true;
+		}
+		catch (SocketException)
+		{
+			return false;
+		}
 	}
 
 	public async Task<AM2RDataJSON?> GetDataAsync()
 	{
-		var stream = tcpClient.GetStream();
-		using (var writer = new StreamWriter(stream, leaveOpen: true))
+		try
 		{
-			await writer.WriteLineAsync();
+			var stream = tcpClient.GetStream();
+			using (var writer = new StreamWriter(stream, leaveOpen: true))
+			{
+				await writer.WriteLineAsync();
+			}
+
+			using var reader = new StreamReader(stream, leaveOpen: true);
+			var dataJson = await reader.ReadLineAsync();
+
+			if (dataJson is null)
+			{
+				return null;
+			}
+
+			var parsedData = JsonSerializer.Deserialize<AM2RDataJSON>(dataJson, options);
+			return parsedData;
 		}
-
-		using var reader = new StreamReader(stream, leaveOpen: true);
-		var dataJson = await reader.ReadLineAsync();
-
-		if (dataJson is null)
+		catch (Exception)
 		{
 			return null;
 		}
-
-		var parsedData = JsonSerializer.Deserialize<AM2RDataJSON>(dataJson, options);
-		return parsedData;
 	}
 
 	public void Dispose()
