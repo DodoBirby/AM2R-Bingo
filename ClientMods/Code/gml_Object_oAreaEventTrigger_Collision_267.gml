@@ -1,0 +1,1 @@
+global.event[event] = 1
