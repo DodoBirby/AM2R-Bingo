@@ -27,6 +27,7 @@ if (active)
             }
             
             global.event[102] = 1;
+            global.event[310] = 1;
             sfx_play(208);
         }
     }
