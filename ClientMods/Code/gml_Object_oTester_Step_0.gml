@@ -631,6 +631,7 @@ if (state == 100)
             instance_destroy();
         
         global.event[200] = 2;
+        global.event[317] = 1
         mus_current_fadein();
         instance_destroy();
     }
