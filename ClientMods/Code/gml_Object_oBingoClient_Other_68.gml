@@ -49,6 +49,22 @@ if (global.playingGame) {
         }
     }
     ds_map_add_map(sendMap, "mapTiles", dMapMap)
+
+    var trooperLogMap = ds_map_create()
+    for (var i = 0; i < 8; i++) {
+        if (global.trooperlog[i] != 0) {
+            ds_map_add(trooperLogMap, string(global.trooperlog[i]), true)
+        }
+    }
+    ds_map_add_map(sendMap, "trooperLogs", trooperLogMap)
+
+    var logMap = ds_map_create()
+    for (var i = 0; i < array_length_1d(global.log); i++) {
+        if (global.log[i]) {
+            ds_map_add(logMap, string(i), true)
+        }
+    }
+    ds_map_add_map(sendMap, "logs", logMap)
 } else {
     ds_map_add(sendMap, "inGame", "false");
 }

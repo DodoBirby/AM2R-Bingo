@@ -14,4 +14,8 @@ public class AM2RDataJSON
 	public Dictionary<string, double> Events { get; set; } = [];
 
 	public Dictionary<string, double> MapTiles { get; set; } = [];
+
+	public Dictionary<string, double> TrooperLogs { get; set; } = [];
+
+	public Dictionary<string, double> Logs { get; set; } = [];
 }

@@ -83,11 +83,15 @@ class Program
 		var completedMetroids = objective.MetroidIds.Where(x => am2rData.Metroids.ContainsKey(x.ToString())).Count();
 		var completedEvents = objective.EventIds.Where(x => am2rData.Events.ContainsKey(x.ToString())).Count();
 		var completedMapTiles = objective.MapTileCoords.Where(x => am2rData.MapTiles.ContainsKey($"{x[0]}:{x[1]}")).Count();
+		var completedTrooperLogs = objective.TrooperLogIds.Where(x => am2rData.TrooperLogs.ContainsKey(x.ToString())).Count();
+		var completedLogs = objective.LogIds.Where(x => am2rData.Logs.ContainsKey(x.ToString())).Count();
 
 		return completedItems >= objective.ItemCount
 			&& completedMetroids >= objective.MetroidCount
 			&& completedEvents >= objective.EventCount
-			&& completedMapTiles >= objective.MapTileCount;
+			&& completedMapTiles >= objective.MapTileCount
+			&& completedTrooperLogs >= objective.TrooperLogCount
+			&& completedLogs >= objective.LogCount;
 	}
 
 	static List<ObjectiveJSON> GetAllObjectives()
@@ -113,6 +117,14 @@ class Program
 			if (objective.MapTileCount == 0)
 			{
 				objective.MapTileCount = objective.MapTileCoords.Count;
+			}
+			if (objective.LogCount == 0)
+			{
+				objective.LogCount = objective.LogIds.Count;
+			}
+			if (objective.TrooperLogCount == 0)
+			{
+				objective.TrooperLogCount = objective.TrooperLogIds.Count;
 			}
 		}
 		return objectivesList;

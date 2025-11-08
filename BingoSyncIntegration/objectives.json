@@ -251,10 +251,12 @@
         "eventIds": [101]
     },
     {
-        "name": "Collect Mines Trooper Log"
+        "name": "Collect Mines Trooper Log",
+        "trooperLogIds": [8]
     },
     {
-        "name": "Collect Tower Trooper Log"
+        "name": "Collect Tower Trooper Log",
+        "trooperLogIds": [5]
     },
     {
         "name": "Visit Thoth Arcade Machine",
@@ -262,7 +264,7 @@
     },
     {
         "name": "Defeat Arachnus",
-        "eventIds": [315]
+        "eventIds": [103]
     },
     {
         "name": "Defeat Torizo",
@@ -274,15 +276,15 @@
     },
     {
         "name": "Defeat Serris",
-        "eventIds": [318]
+        "eventIds": [261]
     },
     {
         "name": "Defeat Genesis",
-        "eventIds": [319]
+        "eventIds": [307]
     },
     {
         "name": "Defeat 3 bosses (Not Guardian, Not Tank)",
-        "eventIds": [315, 316, 317, 318, 319],
+        "eventIds": [103, 316, 317, 261, 307],
         "eventCount": 3
     }
 ]

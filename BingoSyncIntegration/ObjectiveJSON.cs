@@ -20,6 +20,10 @@ public class ObjectiveJSON
 
 	public int EventCount { get; set; }
 
+	public List<int> TrooperLogIds { get; set; } = [];
+
+	public int TrooperLogCount { get; set; }
+
 	public List<int> LogIds { get; set; } = [];
 
 	public int LogCount { get; set; }
