@@ -5,3 +5,4 @@ scr_default_global_items();
 
 if (file_exists(working_directory + "\swap.ini"))
     file_delete(working_directory + "\swap.ini");
+global.playingGame = false;

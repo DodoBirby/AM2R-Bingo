@@ -1,5 +1,6 @@
 global.monsterStr = "Metroid";
 instance_create(0, 0, oBingoClient)
+global.playingGame = false;
 randomize();
 targetx = 48;
 targety = 432;
