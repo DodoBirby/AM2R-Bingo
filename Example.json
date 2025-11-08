@@ -1,0 +1,22 @@
+[
+    {
+        "name": "Collect Bombs",
+        "itemIds": [0],
+        "itemCount": -1
+    },
+    {
+        "name": "Explore some tiles",
+        "mapTileCoords": [[0, 0], [1, 2]],
+        "mapTileCount": -1
+    },
+    {
+        "name": "Kill Metroids",
+        "metroidIds": [0, 1, 2, 3],
+        "metroidCount": 2
+    },
+    {
+        "name": "Trigger an event",
+        "eventIds": [1, 2, 3, 4],
+        "eventCount": 1
+    }
+]

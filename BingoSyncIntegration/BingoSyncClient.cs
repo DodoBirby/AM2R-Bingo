@@ -56,7 +56,7 @@ public partial class BingoSyncClient : IDisposable
 		// Now cookie container contains the session id cookie which enables further post requests
 	}
 
-	public async Task SetColor(int slotNum, string color, bool removeColor)
+	public async Task SetColorAsync(int slotNum, string color, bool removeColor)
 	{
 		if (string.IsNullOrEmpty(ConnectedRoom))
 		{

@@ -1,5 +1,6 @@
 var type = ds_map_find_value(async_load, "type")
-var newline = "#"
+var newline = "
+";
 
 switch type {
     case network_type_connect:
