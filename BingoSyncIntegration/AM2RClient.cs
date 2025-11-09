@@ -23,10 +23,7 @@ public class AM2RClient : IDisposable
 	{
 		try
 		{
-			if (tcpClient.Connected)
-			{
-				ReplaceTcpClient();
-			}
+			ReplaceTcpClient();
 			var endpoint = new IPEndPoint(IPAddress.Loopback, Port);
 			await tcpClient.ConnectAsync(endpoint);
 			return true;
