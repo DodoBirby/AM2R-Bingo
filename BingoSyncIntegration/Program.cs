@@ -49,17 +49,20 @@ class Program
 					await ConnectToAm2rWithRetry(am2rClient);
 					continue;
 				}
+				if (data.InGame)
+				{
+					var currentlyCompletedObjectives = GetCompletedObjectives(data, CurrentObjectives);
+					var newlyCompletedObjectives = currentlyCompletedObjectives.Where(x => !PreviouslyCompletedObjectiveNames.Contains(x.Name)).Select(x => x.Name).ToList();
 
-				var currentlyCompletedObjectives = GetCompletedObjectives(data, CurrentObjectives);
-				var newlyCompletedObjectives = currentlyCompletedObjectives.Where(x => !PreviouslyCompletedObjectiveNames.Contains(x.Name)).Select(x => x.Name).ToList();
+					var currentlyCompletedObjectiveNames = currentlyCompletedObjectives.Select(x => x.Name).ToHashSet();
+					var lostObjectives = PreviouslyCompletedObjectiveNames.Where(x => !currentlyCompletedObjectiveNames.Contains(x)).ToList();
 
-				var currentlyCompletedObjectiveNames = currentlyCompletedObjectives.Select(x => x.Name).ToHashSet();
-				var lostObjectives = PreviouslyCompletedObjectiveNames.Where(x => !currentlyCompletedObjectiveNames.Contains(x)).ToList();
+					PreviouslyCompletedObjectiveNames = currentlyCompletedObjectiveNames;
 
-				PreviouslyCompletedObjectiveNames = currentlyCompletedObjectiveNames;
-
-				await bingoSyncClient.UnsendObjectivesAsync(lostObjectives, BingoSyncObjectiveNameMap);
-				await bingoSyncClient.SendObjectivesAsync(newlyCompletedObjectives, BingoSyncObjectiveNameMap);
+					await bingoSyncClient.UnsendObjectivesAsync(lostObjectives, BingoSyncObjectiveNameMap);
+					await bingoSyncClient.SendObjectivesAsync(newlyCompletedObjectives, BingoSyncObjectiveNameMap);
+				}
+				
 				await Task.Delay(MillisecondsBetweenAM2RFetches);
 			}
 			await boardManager.RefreshDataAsync();
