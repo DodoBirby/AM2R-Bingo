@@ -353,16 +353,26 @@ if (platformCharacterIs(IN_AIR))
     
     if (walljumping)
     {
+        var ziptimer = 8000;
+        var prevzipx = x;
         if (facing == LEFT)
         {
-            while (isCollisionRight(1) == 0)
+            while (isCollisionRight(1) == 0 && ziptimer > 0) {
                 x += 1;
+                ziptimer -= 1;
+            }
         }
         
         if (facing == RIGHT)
         {
-            while (isCollisionLeft(1) == 0)
+            while (isCollisionLeft(1) == 0 && ziptimer > 0) {
                 x -= 1;
+                ziptimer -= 1;
+            }
+        }
+
+        if (ziptimer == 0) {
+            x = prevzipx;
         }
     }
     
