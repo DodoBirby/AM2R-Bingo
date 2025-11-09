@@ -181,15 +181,15 @@
     },
     {
         "name": "Kill All Alphas in Distribution Center",
-        "itemIds": [34, 35, 36, 37, 38]
+        "metroidIds": [34, 35, 36, 37, 38]
     },
     {
         "name": "Kill All Gammas in Distribution Center",
-        "itemIds": [39, 40]
+        "metroidIds": [39, 40]
     },
     {
         "name": "Kill the Zeta in Distribution Center",
-        "itemIds": [33]
+        "metroidIds": [33]
     },
     {
         "name": "Kill the Thoth Alphas",
