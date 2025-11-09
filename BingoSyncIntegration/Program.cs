@@ -20,11 +20,15 @@ class Program
 		Console.WriteLine("Enter BingoSync password:");
 		var password = Console.ReadLine()!;
 
+		Console.WriteLine("Enter color:");
+		var color = Console.ReadLine()!;
+
 		var am2rClient = new AM2RClient();
 		await ConnectToAm2rWithRetry(am2rClient);
 		Console.WriteLine("Connected to AM2R");
 
 		var bingoSyncClient = new BingoSyncClient();
+		bingoSyncClient.Color = color;
 		await bingoSyncClient.ConnectAsync(roomId, password);
 		Console.WriteLine("Connected to BingoSync");
 
