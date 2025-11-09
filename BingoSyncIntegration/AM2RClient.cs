@@ -7,7 +7,7 @@ namespace BingoSyncIntegration;
 public class AM2RClient : IDisposable
 {
 	const int Port = 64195;
-	TcpClient tcpClient = new();
+	TcpClient tcpClient;
 
 	static readonly JsonSerializerOptions options = new()
 	{
@@ -16,13 +16,17 @@ public class AM2RClient : IDisposable
 
 	public AM2RClient()
 	{
-		tcpClient.NoDelay = true;
+		tcpClient = CreateTcpClient();
 	}
 
 	public async Task<bool> ConnectAsync()
 	{
 		try
 		{
+			if (tcpClient.Connected)
+			{
+				ReplaceTcpClient();
+			}
 			var endpoint = new IPEndPoint(IPAddress.Loopback, Port);
 			await tcpClient.ConnectAsync(endpoint);
 			return true;
@@ -31,6 +35,19 @@ public class AM2RClient : IDisposable
 		{
 			return false;
 		}
+	}
+
+	void ReplaceTcpClient()
+	{
+		tcpClient.Dispose();
+		tcpClient = CreateTcpClient();
+	}
+
+	static TcpClient CreateTcpClient()
+	{
+		var newTcpClient = new TcpClient();
+		newTcpClient.NoDelay = true;
+		return newTcpClient;
 	}
 
 	public async Task<AM2RDataJSON?> GetDataAsync()
