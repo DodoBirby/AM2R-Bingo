@@ -16,6 +16,6 @@ public class BingoBoardManager(BingoSyncClient client)
 
 	public Dictionary<string, int> GetBingoSyncObjectives()
 	{
-		return boardData.Select((x, i) => (x.Name, i)).ToDictionary();
+		return boardData.Select((x, i) => (x.Name, i + 1)).ToDictionary();
 	}
 }
