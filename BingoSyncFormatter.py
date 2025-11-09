@@ -6,4 +6,6 @@ with open("BingoSyncIntegration/objectives.json") as f:
     out_list = []
     for obj in obj_list:
         out_list.append({ "name": obj["name"] })
-    print(json.dumps(out_list))
+    
+with open("objectivesbingosyncformat.json", "w") as f:
+    f.write(json.dumps(out_list, indent=4))
