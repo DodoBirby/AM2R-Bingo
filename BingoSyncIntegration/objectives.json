@@ -113,39 +113,39 @@
     },
     {
         "name": "Golden Temple EMP Item",
-        "itemIds": [110]
+        "itemLocationIds": [110]
     },
     {
         "name": "Hydro Station EMP Item",
-        "itemIds": [162]
+        "itemLocationIds": [162]
     },
     {
         "name": "Industrial Complex EMP Item",
-        "itemIds": [213]
+        "itemLocationIds": [213]
     },
     {
         "name": "Super Missile in Lower Distribution Center",
-        "itemIds": [305]
+        "itemLocationIds": [305]
     },
     {
         "name": "Post Gravity PB",
-        "itemIds": [302]
+        "itemLocationIds": [302]
     },
     {
         "name": "Golden Temple Above Guardian PB",
-        "itemIds": [112]
+        "itemLocationIds": [112]
     },
     {
         "name": "Breeding Grounds 2 Power Bomb",
-        "itemIds": [160]
+        "itemLocationIds": [160]
     },
     {
         "name": "Tower Post Tester Super Missile",
-        "itemIds": [256]
+        "itemLocationIds": [256]
     },
     {
         "name": "Skippy Super Tank",
-        "itemIds": [206]
+        "itemLocationIds": [206]
     },
     {
         "name": "Kill First Alpha",
