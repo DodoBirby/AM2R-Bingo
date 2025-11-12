@@ -83,4 +83,16 @@ public class ObjectiveJSON
 			return LogCount != 0 ? LogCount : LogIds.Count;
 		}
 	}
+
+	public List<int> ItemLocationIds { get; set; } = [];
+
+	public int ItemLocationCount { get; set; }
+
+	public int ItemLocationsRequired
+	{
+		get
+		{
+			return ItemLocationCount != 0 ? ItemLocationCount : ItemLocationIds.Count;
+		}
+	}
 }

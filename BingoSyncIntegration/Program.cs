@@ -126,13 +126,15 @@ class Program
 		var completedMapTiles = objective.MapTileCoords.Where(x => am2rData.MapTiles.ContainsKey($"{x[0]}:{x[1]}")).Count();
 		var completedTrooperLogs = objective.TrooperLogIds.Where(x => am2rData.TrooperLogs.ContainsKey(x.ToString())).Count();
 		var completedLogs = objective.LogIds.Where(x => am2rData.Logs.ContainsKey(x.ToString())).Count();
+		var completedItemLocations = objective.ItemLocationIds.Where(x => am2rData.ItemLocations.ContainsKey(x.ToString())).Count();
 
 		return completedItems >= objective.ItemsRequired
 			&& completedMetroids >= objective.MetroidsRequired
 			&& completedEvents >= objective.EventsRequired
 			&& completedMapTiles >= objective.MapTilesRequired
 			&& completedTrooperLogs >= objective.TrooperLogsRequired
-			&& completedLogs >= objective.LogsRequired;
+			&& completedLogs >= objective.LogsRequired
+			&& completedItemLocations >= objective.ItemLocationsRequired;
 	}
 
 	static List<ObjectiveJSON> GetAllObjectives()

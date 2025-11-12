@@ -74,6 +74,14 @@ if (global.playingGame) {
         }
     }
     ds_map_add_map(sendMap, "logs", logMap)
+
+    var itemLocationMap = ds_map_create()
+    for (var i = 0; i < array_length_1d(global.item); i++) {
+        if (global.item[scr_itemchange(i)]) {
+            ds_map_add(itemLocationMap, string(i), true)
+        }
+    }
+    ds_map_add_map(sendMap, "itemLocations", itemLocationMap)
 } else {
     ds_map_add(sendMap, "inGame", "false");
 }

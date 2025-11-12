@@ -18,4 +18,6 @@ public class AM2RDataJSON
 	public Dictionary<string, double> TrooperLogs { get; set; } = [];
 
 	public Dictionary<string, double> Logs { get; set; } = [];
+
+	public Dictionary<string, double> ItemLocations { get; set; } = [];
 }
