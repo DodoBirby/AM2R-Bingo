@@ -14,6 +14,7 @@ class Program
 	static HashSet<string> PreviouslyCompletedObjectiveNames = [];
 	static Dictionary<string, int> BingoSyncObjectiveNameMap = [];
 	static List<ObjectiveJSON> CurrentObjectives = [];
+	static readonly JsonSerializerOptions jsonSerializerOptions = new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase };
 
 	static async Task Main()
 	{
@@ -126,47 +127,19 @@ class Program
 		var completedTrooperLogs = objective.TrooperLogIds.Where(x => am2rData.TrooperLogs.ContainsKey(x.ToString())).Count();
 		var completedLogs = objective.LogIds.Where(x => am2rData.Logs.ContainsKey(x.ToString())).Count();
 
-		return completedItems >= objective.ItemCount
-			&& completedMetroids >= objective.MetroidCount
-			&& completedEvents >= objective.EventCount
-			&& completedMapTiles >= objective.MapTileCount
-			&& completedTrooperLogs >= objective.TrooperLogCount
-			&& completedLogs >= objective.LogCount;
+		return completedItems >= objective.ItemsRequired
+			&& completedMetroids >= objective.MetroidsRequired
+			&& completedEvents >= objective.EventsRequired
+			&& completedMapTiles >= objective.MapTilesRequired
+			&& completedTrooperLogs >= objective.TrooperLogsRequired
+			&& completedLogs >= objective.LogsRequired;
 	}
 
 	static List<ObjectiveJSON> GetAllObjectives()
 	{
 		var objectivesJson = File.ReadAllText("objectives.json");
 
-		var objectivesList = JsonSerializer.Deserialize<List<ObjectiveJSON>>(objectivesJson, new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase })!;
-
-		foreach (var objective in objectivesList)
-		{
-			if (objective.ItemCount == 0)
-			{
-				objective.ItemCount = objective.ItemIds.Count;
-			}
-			if (objective.MetroidCount == 0)
-			{
-				objective.MetroidCount = objective.MetroidIds.Count;
-			}
-			if (objective.EventCount == 0)
-			{
-				objective.EventCount = objective.EventIds.Count;
-			}
-			if (objective.MapTileCount == 0)
-			{
-				objective.MapTileCount = objective.MapTileCoords.Count;
-			}
-			if (objective.LogCount == 0)
-			{
-				objective.LogCount = objective.LogIds.Count;
-			}
-			if (objective.TrooperLogCount == 0)
-			{
-				objective.TrooperLogCount = objective.TrooperLogIds.Count;
-			}
-		}
+		var objectivesList = JsonSerializer.Deserialize<List<ObjectiveJSON>>(objectivesJson, jsonSerializerOptions)!;
 		return objectivesList;
 	}
 }
