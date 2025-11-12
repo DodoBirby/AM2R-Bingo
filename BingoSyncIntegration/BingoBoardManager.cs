@@ -1,4 +1,6 @@
-﻿namespace BingoSyncIntegration;
+﻿using BingoSyncIntegration.JSONDataObjects;
+
+namespace BingoSyncIntegration;
 
 public class BingoBoardManager(BingoSyncClient client)
 {

@@ -1,4 +1,4 @@
-﻿namespace BingoSyncIntegration;
+﻿namespace BingoSyncIntegration.JSONDataObjects;
 
 public class ObjectiveJSON
 {

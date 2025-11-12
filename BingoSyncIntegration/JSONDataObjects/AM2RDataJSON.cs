@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace BingoSyncIntegration;
+namespace BingoSyncIntegration.JSONDataObjects;
 
 public class AM2RDataJSON
 {

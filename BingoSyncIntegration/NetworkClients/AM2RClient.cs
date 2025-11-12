@@ -1,8 +1,9 @@
-﻿using System.Net;
+﻿using BingoSyncIntegration.JSONDataObjects;
+using System.Net;
 using System.Net.Sockets;
 using System.Text.Json;
 
-namespace BingoSyncIntegration;
+namespace BingoSyncIntegration.NetworkClients;
 
 public class AM2RClient : IDisposable
 {
