@@ -2,15 +2,12 @@
 using System.Net;
 using System.Net.Http.Json;
 using System.Text.Json;
-using System.Text.RegularExpressions;
 
 namespace BingoSyncIntegration;
 
-public partial class BingoSyncClient : IDisposable
+public class BingoSyncClient : IDisposable
 {
 	const string BingoSyncUrl = "https://bingosync.com";
-	const string PasswordFieldName = "passphrase";
-	const string PlayerNameFieldName = "player_name";
 
 	readonly CookieContainer cookieContainer = new();
 	readonly HttpClientHandler httpHandler;
@@ -32,26 +29,14 @@ public partial class BingoSyncClient : IDisposable
 
 	public async Task ConnectAsync(string roomId, string password)
 	{
-		var loginResponse = await client.GetAsync($"{BingoSyncUrl}/room/{roomId}");
-		loginResponse.EnsureSuccessStatusCode();
-
-		var loginScreenHtml = await loginResponse.Content.ReadAsStringAsync();
-
-		var formInputRegex = FormInputRegex();
-
-		var matches = formInputRegex.Matches(loginScreenHtml);
-		var formSubmitDict = new Dictionary<string, string>();
-
-		foreach (Match match in matches)
+		var postBody = new BingoSyncJoinRoomJSON()
 		{
-			formSubmitDict.Add(match.Groups[1].Value, match.Groups[2].Value);
-		}
-		formSubmitDict.Add(PasswordFieldName, password);
-		formSubmitDict.Add(PlayerNameFieldName, "bot");
+			Nickname = "Bot",
+			Password = password,
+			Room = roomId
+		};
 
-		var content = new FormUrlEncodedContent(formSubmitDict);
-
-		var postResponse = await client.PostAsync($"{BingoSyncUrl}/room/{roomId}", content);
+		var postResponse = await client.PostAsJsonAsync($"{BingoSyncUrl}/api/join-room", postBody, options);
 		postResponse.EnsureSuccessStatusCode();
 
 		ConnectedRoom = roomId;
@@ -78,6 +63,11 @@ public partial class BingoSyncClient : IDisposable
 
 	public async Task<List<BingoSyncBoardJSON>> GetBoardDataAsync()
 	{
+		if (string.IsNullOrEmpty(ConnectedRoom))
+		{
+			return [];
+		}
+
 		var boardResponse = await client.GetAsync($"{BingoSyncUrl}/room/{ConnectedRoom}/board");
 		boardResponse.EnsureSuccessStatusCode();
 
@@ -89,6 +79,11 @@ public partial class BingoSyncClient : IDisposable
 
 	public async Task SendObjectivesAsync(List<string> objectivesToSend, Dictionary<string, int> nameToSlotMapping)
 	{
+		if (string.IsNullOrEmpty(ConnectedRoom))
+		{
+			return;
+		}
+
 		foreach (var objective in objectivesToSend)
 		{
 			await SetColorAsync(nameToSlotMapping[objective], Color, false);
@@ -97,6 +92,11 @@ public partial class BingoSyncClient : IDisposable
 
 	public async Task UnsendObjectivesAsync(List<string> objectivesToRemove, Dictionary<string, int> nameToSlotMapping)
 	{
+		if (string.IsNullOrEmpty(ConnectedRoom))
+		{
+			return;
+		}
+
 		foreach (var objective in objectivesToRemove)
 		{
 			await SetColorAsync(nameToSlotMapping[objective], Color, true);
@@ -108,8 +108,4 @@ public partial class BingoSyncClient : IDisposable
 		client.Dispose();
 		GC.SuppressFinalize(this);
 	}
-
-	[GeneratedRegex("<input[^>]*name=\"([^\"]*)\"[^>]*value=\"([^\"]*)\"[^>]*>")]
-	private static partial Regex FormInputRegex();
-
 }
